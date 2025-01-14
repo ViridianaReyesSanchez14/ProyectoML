@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROYECTO MARCHINE LEARNING</title>
+    
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background: linear-gradient(135deg, #a3c4bc, #dce8e8);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            transition: background 0.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        p {
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            color: #7f8c8d;
+        }
+
+        /* Button container with grid layout */
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px; /* Espaciado entre botones */
+            width: 90%;
+            max-width: 1100px;
+            padding: 15px;
+        }
+
+        /* Button Styles */
+        .button {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 35px;
+            padding: 15px 25px;
+            font-size: 1em; /* Tamaño de letra ajustado */
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.5);
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .button:active {
+            transform: scale(1);
+            background-color: #2471a3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .button {
+                font-size: 0.9em;
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Explorador de Jupyter Notebooks</h1>
+    
+    <!-- Flex container for buttons -->
+    <div class="button-container">
+        <!-- Botones generados dinámicamente desde Flask -->
+        {% for notebook in notebooks %}
+            <button class="button" onclick="loadNotebook('{{ notebook }}')">{{ notebook }}</button>
+        {% endfor %}
+    </div>
+
+    <script>
+        function loadNotebook(notebookName) {
+            window.location.href = '/notebook/' + notebookName;
+        }
+    </script>
+</body>
+</html>
