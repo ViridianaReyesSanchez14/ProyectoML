@@ -4,19 +4,26 @@ from nbconvert import HTMLExporter
 
 app = Flask(__name__)
 
-# Suponiendo que tienes una lista de notebooks
-notebooks = ["3501_RegresionLineal.ipynb", "3501_Regresion_Logistica.ipynb", "3501_Visualizacion-de-Datos.ipynb","3501_Preparacion-del-DataSet.ipynb","3501_Creacion-de-Transformadores-y-Pipelines-Personalizados.ipynb","3501_Evaluacion-de-Resultados.ipynb","3501_Support-Vector-Machine.ipynb"]
-# Función para cargar un notebook y convertirlo a HTML
+# Lista de notebooks, incluyendo uno nuevo
+notebooks = [
+    "3501_RegresionLineal.ipynb",
+    "3501_Regresion_Logistica.ipynb",
+    "3501_Visualizacion-de-Datos.ipynb",
+    "3501_Preparacion-del-DataSet.ipynb",
+    "3501_Creacion-de-Transformadores-y-Pipelines-Personalizados.ipynb",
+    "3501_Evaluacion-de-Resultados.ipynb",
+    "3501_Support-Vector-Machine.ipynb",
+    "Arboles_de_decision.ipynb"  # Nuevo notebook agregado
+]
+
+# Convertir notebook a HTML
 def convert_notebook_to_html(notebook_path):
     try:
-        # Leer el archivo del notebook
         with open(notebook_path, 'r', encoding='utf-8') as f:
             notebook_content = nbformat.read(f, as_version=4)
 
-        # Usar nbconvert para convertir el notebook a HTML
         html_exporter = HTMLExporter()
         body, resources = html_exporter.from_notebook_node(notebook_content)
-        
         return body
     except Exception as e:
         print(f"Error al convertir el notebook {notebook_path}: {str(e)}")
@@ -28,16 +35,13 @@ def index():
 
 @app.route('/notebook/<notebook_name>')
 def view_notebook(notebook_name):
-    # Aquí puedes elegir cómo obtener el archivo del notebook
     notebook_path = f"notebooks/{notebook_name}"
-
     try:
-        # Convertir el notebook a HTML
         notebook_html = convert_notebook_to_html(notebook_path)
         return render_template('notebook_viewer.html', notebook_html=notebook_html)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)  # Cambia a tu puerto preferido
+    app.run(debug=True, port=8000)
 

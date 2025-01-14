@@ -3,93 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROYECTO MARCHINE LEARNING</title>
-    
+    <title>Machine Learning Dashboard</title>
     <style>
-        /* Global Styles */
         body {
-            font-family: 'Helvetica', sans-serif;
-            background: linear-gradient(135deg, #a3c4bc, #dce8e8);
-            color: #333;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            background: #f9f9f9;
+        }
+
+        header {
+            background: linear-gradient(to right, #3b82f6, #9333ea);
+            color: white;
+            padding: 20px 0;
             text-align: center;
-            transition: background 0.5s ease-in-out;
         }
 
-        h1 {
-            font-size: 2.8em;
-            color: #2c3e50;
-            margin-bottom: 30px;
+        header h1 {
+            font-size: 2.5rem;
         }
 
-        p {
-            margin-bottom: 30px;
-            font-size: 1.2em;
-            color: #7f8c8d;
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
         }
 
-        /* Button container with grid layout */
+        .task-container {
+            margin: 30px auto;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .task-container h2 {
+            font-size: 1.5rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         .button-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px; /* Espaciado entre botones */
-            width: 90%;
-            max-width: 1100px;
-            padding: 15px;
+            grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+            gap: 15px;
         }
 
-        /* Button Styles */
         .button {
-            background: #3498db;
-            color: #fff;
+            width: 100%; /* Ocupa todo el ancho disponible */
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
             border: none;
-            border-radius: 35px;
-            padding: 15px 25px;
-            font-size: 1em; /* Tamaño de letra ajustado */
             cursor: pointer;
-            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.5);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .regresion {
+            background: #ef4444;
+            color: white;
+        }
+
+        .visualizacion {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .preparacion {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .transformadores {
+            background: #6366f1;
+            color: white;
+        }
+
+        .evaluacion {
+            background: #10b981;
+            color: white;
+        }
+
+        .nuevo {
+            background: #8b5cf6;
+            color: white;
         }
 
         .button:hover {
-            background-color: #2980b9;
             transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .button:active {
-            transform: scale(1);
-            background-color: #2471a3;
+        footer {
+            background: #111827;
+            color: #e5e7eb;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 50px;
         }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2.2em;
-            }
-
-            .button {
-                font-size: 0.9em;
-                padding: 12px 20px;
-            }
+        footer a {
+            color: #3b82f6;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <h1>Explorador de Jupyter Notebooks</h1>
-    
-    <!-- Flex container for buttons -->
-    <div class="button-container">
-        <!-- Botones generados dinámicamente desde Flask -->
-        {% for notebook in notebooks %}
-            <button class="button" onclick="loadNotebook('{{ notebook }}')">{{ notebook }}</button>
-        {% endfor %}
-    </div>
+    <header>
+        <h1>Machine Learning Dashboard</h1>
+        <p>Explora las herramientas y resultados de tus modelos de ML</p>
+    </header>
+
+    <main class="task-container">
+        <h2>Selecciona una tarea</h2>
+        <div class="button-container">
+            {% for notebook in notebooks %}
+                <button class="button {{ 'regresion' if 'Regresion' in notebook else 'visualizacion' if 'Visualizacion' in notebook else 'preparacion' if 'Preparacion' in notebook else 'transformadores' if 'Transformadores' in notebook else 'evaluacion' if 'Evaluacion' in notebook else 'nuevo' }}" onclick="loadNotebook('{{ notebook }}')">
+                    {{ notebook.split('_')[1].replace('-', ' ').title() }}
+                </button>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Machine Learning. Todos los derechos reservados. <a href="#">GitHub</a></p>
+    </footer>
 
     <script>
         function loadNotebook(notebookName) {
@@ -98,3 +135,5 @@
     </script>
 </body>
 </html>
+
+
